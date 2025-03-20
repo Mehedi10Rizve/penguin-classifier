@@ -3,7 +3,7 @@ name: Fetch Penguin Data and Predict
 on:
   schedule:
     - cron: "30 7 * * *"  # Runs daily at 7:30 AM UTC
-  workflow_dispatch:  # Allows manual triggering from GitHub Actions
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   fetch_predict:
@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false  # Disable default GitHub Actions authentication
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -26,10 +28,10 @@ jobs:
 
       - name: Commit and Push Results
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}  # Use GitHub PAT for authentication
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub's built-in token
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add results/index.html
           git diff --quiet && git diff --staged --quiet || git commit -m "Update penguin prediction"
-          git push https://x-access-token:${GH_TOKEN}@github.com/Mehedi10Rizve/penguin-classifier.git HEAD:main
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/Mehedi10Rizve/penguin-classifier.git HEAD:main
