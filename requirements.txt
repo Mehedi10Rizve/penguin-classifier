@@ -1,0 +1,6 @@
+seaborn
+pandas
+scikit-learn
+requests
+sqlite3
+pickle5
