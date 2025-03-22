@@ -51,7 +51,7 @@ html_content = f"""
 </html>
 """
 
-with open("results/index.html", "w") as f:
+with open("index.html", "w") as f:
     f.write(html_content)
 
 print("Prediction saved successfully! Check results/index.html")
